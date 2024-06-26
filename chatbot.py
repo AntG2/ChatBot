@@ -30,7 +30,7 @@ for message in st.session_state.messages[1:]:
 
 
 # React to user input
-if prompt := st.chat_input("What do you want to ask your assistant today?"):
+if prompt := st.chat_input("What do you want to ask today?"):
     # Display user message in chat message container
     st.chat_message("user").markdown(prompt)
     # Add user message to chat history
