@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 config_data = {
         "api_base": "https://openai-external-instance-02.openai.azure.com/",
-        "api_key": "b6a3ec1c8f1048ce89d6199e3c660893",
+        "api_key": st.secrets["OPENAI_API_KEY"],
         "engine": "gpt-4-32k"
     }
 # Initialize
