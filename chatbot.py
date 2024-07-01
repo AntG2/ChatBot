@@ -32,10 +32,8 @@ def tag_conversation(question):
     response = openai.chat.completions.create(
         model=config_data["engine"],
         messages=[
-            {"role": "user", "content": f"Generate keywords that summarizes the main topics of what the user asks for \
-             or the user's statement if they are not asking for something: '{question}'"}
-        ],
-        max_tokens=15
+            {"role": "user", "content": f"提取以下问题的关键词，突出主要主题：'{question}'."}
+        ]
     )
     
     topic = response.choices[0].message.content.strip()
@@ -46,8 +44,9 @@ def get_keywords(question):
     st.session_state.messages.append({"role": "user", "content": question})
     
     # Formulate the prompt with context
-    prompt = f"Reconstruct the following user statement or question '{question}' \
+    prompt = f"Reconstruct the following user statement or question '{question}'. \
                 in the context of the following conversation history: {st.session_state.messages[1:]}. \
+                You must keep reconstructions in the original language the user uses for that statement or question being reconstructed. \
                 Return your response as json format with the following fields: \
                 'related' to write any earlier question or conversation that is used to reconstruct the statement or question, \
                 if there are no related conversations, put 'None', and \
@@ -59,8 +58,7 @@ def get_keywords(question):
         model=config_data["engine"],
         messages=[
             {"role": "user", "content": prompt}
-        ],
-        max_tokens=50
+        ]
     )
     print(response.choices[0].message.content.strip())
     # Extract the keywords from the response
@@ -84,4 +82,4 @@ if prompt := st.chat_input("What do you want to ask your assistant today?"):
     response = get_keywords(prompt)
     # Display chatgpt response in chat message container
     with st.chat_message("assistant"):
-        st.markdown(json.dumps(response))
+        st.markdown(response)
