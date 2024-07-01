@@ -32,6 +32,7 @@ def tag_conversation(question):
     response = openai.chat.completions.create(
         model=config_data["engine"],
         messages=[
+            {"role": "system", "content": "You are an expert at extracting keywords from user queries. reply with just the keywords in a list"},
             {"role": "user", "content": f"提取以下问题的关键词，突出主要主题：'{question}'."}
         ]
     )
@@ -57,6 +58,7 @@ def get_keywords(question):
     response = openai.chat.completions.create(
         model=config_data["engine"],
         messages=[
+            {"role": "system", "content": "You are a professional at filling in missing information of user query from context clues"},
             {"role": "user", "content": prompt}
         ]
     )
