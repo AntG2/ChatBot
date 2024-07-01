@@ -12,9 +12,9 @@ if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": "You are a context classifier."}]
 
     openai.api_type = "azure"
-    openai.api_base = config_data['api_base']
+    openai.api_base = config_data["api_base"]
     openai.api_version = "2023-07-01-preview"
-    openai.api_key = config_data['api_key']
+    openai.api_key = config_data["api_key"]
 
     os.environ["OPENAI_API_TYPE"] = openai.api_type
     os.environ["OPENAI_API_VERSION"] = openai.api_version
@@ -65,11 +65,11 @@ def get_keywords(question):
     # Extract the keywords from the response
     response = json.loads(response.choices[0].message.content.strip())
 
-    reconstructed = response['reconstructed']
+    reconstructed = response["reconstructed"]
     # Tag the current question
     topic = tag_conversation(reconstructed)
 
-    response['topic'] = topic
+    response["topic"] = topic
     # Add the generated keywords and topic to the conversation history
     st.session_state.messages.append({"role": "assistant", "content": response})
     
