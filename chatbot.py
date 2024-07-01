@@ -12,9 +12,9 @@ if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": "You are a context classifier."}]
 
     openai.api_type = "azure"
-    openai.api_base = config_data["api_base"]
+    openai.api_base = config_data['api_base']
     openai.api_version = "2023-07-01-preview"
-    openai.api_key = config_data["api_key"]
+    openai.api_key = config_data['api_key']
 
     os.environ["OPENAI_API_TYPE"] = openai.api_type
     os.environ["OPENAI_API_VERSION"] = openai.api_version
@@ -26,7 +26,7 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages[1:]:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-
+    
 def tag_conversation(question):
     # Use OpenAI to determine the topic of the question
     response = openai.chat.completions.create(
@@ -51,7 +51,8 @@ def get_keywords(question):
                 Return your response as json format with the following fields: \
                 'related' to write any earlier question or conversation that is used to reconstruct the statement or question, \
                 if there are no related conversations, put 'None', and \
-                'reconstructed' to write the reconstructed statement or question"
+                'reconstructed' to write the reconstructed statement or question. \
+                make sure to use double quotes for fields in json"
     
     # Call the OpenAI API
     response = openai.chat.completions.create(
@@ -61,15 +62,15 @@ def get_keywords(question):
         ],
         max_tokens=50
     )
-    
+    print(response.choices[0].message.content.strip())
     # Extract the keywords from the response
     response = json.loads(response.choices[0].message.content.strip())
 
-    reconstructed = response["reconstructed"]
+    reconstructed = response['reconstructed']
     # Tag the current question
     topic = tag_conversation(reconstructed)
 
-    response["topic"] = topic
+    response['topic'] = topic
     # Add the generated keywords and topic to the conversation history
     st.session_state.messages.append({"role": "assistant", "content": response})
     
