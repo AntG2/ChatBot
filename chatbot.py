@@ -44,7 +44,12 @@ def get_keywords(question):
     st.session_state.messages.append({"role": "user", "content": question})
     
     # Formulate the prompt with context
-    prompt = f"Reconstruct the following user statement or question '{question}' in the context of the following conversation history: {st.session_state.messages[1:]}."
+    prompt = f"Reconstruct the following user statement or question '{question}' \
+                in the context of the following conversation history: {st.session_state.messages[1:]}. \
+                Return your response as json format with the following fields: \
+                'related' to write any earlier question or conversation that is used to reconstruct the statement or question, \
+                if there are no related conversations, put 'None', and \
+                'reconstructed' to write the reconstructed statement or question"
     
     # Call the OpenAI API
     response = openai.chat.completions.create(
@@ -56,23 +61,24 @@ def get_keywords(question):
     )
     
     # Extract the keywords from the response
-    reconstructed = response.choices[0].message.content.strip()
-    
+    response = json.loads(response.choices[0].message.content.strip())
+
+    reconstructed = response['reconstructed']
     # Tag the current question
     topic = tag_conversation(reconstructed)
 
-    reconstructed = (reconstructed + "\n\n" + topic)
+    response['topic'] = topic
     # Add the generated keywords and topic to the conversation history
-    st.session_state.messages.append({"role": "assistant", "content": reconstructed})
+    st.session_state.messages.append({"role": "assistant", "content": response})
     
-    return reconstructed
+    return response
 
 # React to user input
 if prompt := st.chat_input("What do you want to ask your assistant today?"):
     # Display user message in chat message container
     st.chat_message("user").markdown(prompt)
     # Send chat to openai
-    keyword = get_keywords(prompt)
+    response = get_keywords(prompt)
     # Display chatgpt response in chat message container
     with st.chat_message("assistant"):
-        st.markdown(keyword)
+        st.markdown(json.dumps(response))
