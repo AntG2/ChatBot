@@ -32,7 +32,8 @@ def tag_conversation(question):
     response = openai.chat.completions.create(
         model=config_data["engine"],
         messages=[
-            {"role": "user", "content": f"Generate keywords that summarizes the following: '{question}'"}
+            {"role": "user", "content": f"Generate keywords that summarizes the main topics of what the user asks for \
+             or the user's statement if they are not asking for something: '{question}'"}
         ],
         max_tokens=15
     )
