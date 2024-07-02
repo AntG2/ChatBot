@@ -33,7 +33,7 @@ def tag_conversation(question):
         model=config_data["engine"],
         messages=[
             {"role": "system", "content": "You are an expert at extracting keywords from user queries. reply with just the keywords in a list"},
-            {"role": "user", "content": f"提取以下问题的关键词，突出主要主题：'{question}'."}
+            {"role": "user", "content": f"提取引号问题的关键词，突出主要主题：'{question}'."}
         ]
     )
     
