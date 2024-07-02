@@ -47,6 +47,7 @@ def get_keywords(question):
     # Formulate the prompt with context
     prompt = f"Reconstruct the following user statement or question '{question}'. \
                 in the context of the following conversation history: {st.session_state.messages[1:]}. \
+                Keep the original statement or question if there is no context correlations. \
                 You must keep reconstructions in the original language the user uses for that statement or question being reconstructed. \
                 Return your response as json format with the following fields: \
                 'related' to write any earlier question or conversation that is used to reconstruct the statement or question, \
