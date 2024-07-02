@@ -51,7 +51,8 @@ def get_keywords(question):
                 You must keep reconstructions in the original language the user uses for that statement or question being reconstructed. \
                 Return your response as json format with the following fields: \
                 'related' to write any earlier question or conversation that is used to reconstruct the statement or question, \
-                if there are no related conversations, put 'None', and \
+                if there are no related conversations, put 'None', \
+                'reason' to write why you made the correlation(s) used to reconstruct the question, and \
                 'reconstructed' to write the reconstructed statement or question. \
                 Use only double quotes to surround property names \
                 Do not respond with any other text, only json."
