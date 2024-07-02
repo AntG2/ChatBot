@@ -64,7 +64,6 @@ def get_keywords(question):
             {"role": "user", "content": prompt}
         ]
     )
-    print(response.choices[0].message.content.strip())
     # Extract the keywords from the response
     response = json.loads(response.choices[0].message.content.strip())
 
