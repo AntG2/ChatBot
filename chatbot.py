@@ -50,7 +50,7 @@ def get_keywords(question):
                 Keep the original statement or question if there is no context correlations. \
                 You must keep reconstructions in the original language the user uses for that statement or question being reconstructed. \
                 Return your response as json format with the following fields: \
-                'related' to write any earlier question or conversation that is used to reconstruct the statement or question, \
+                'related' to write all earlier questions or conversations that are used to reconstruct the statement or question, \
                 if there are no related conversations, put 'None', \
                 'reason' to write why you made the correlation(s) used to reconstruct the question, and \
                 'reconstructed' to write the reconstructed statement or question. \
