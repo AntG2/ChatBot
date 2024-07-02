@@ -32,8 +32,8 @@ def tag_conversation(question):
     response = openai.chat.completions.create(
         model=config_data["engine"],
         messages=[
-            {"role": "system", "content": "You are an expert at extracting keywords from user queries. reply with just the keywords in a list"},
-            {"role": "user", "content": f"提取引号问题的关键词，突出主要主题：'{question}'."}
+            {"role": "system", "content": "You are an expert at extracting keywords from user queries. reply with keywords in a list"},
+            {"role": "user", "content": f"生成以下问题的关键词，突出主要主题：'{question}'. Do not extract keywords from my prompt, only the question. Ignore meaningless words in text like 吗,是, like."}
         ]
     )
     
@@ -53,7 +53,7 @@ def get_keywords(question):
                 'related' to write any earlier question or conversation that is used to reconstruct the statement or question, \
                 if there are no related conversations, put 'None', and \
                 'reconstructed' to write the reconstructed statement or question. \
-                make sure to use double quotes for fields in json"
+                Do not respond with any other text, only json."
     
     # Call the OpenAI API
     response = openai.chat.completions.create(
